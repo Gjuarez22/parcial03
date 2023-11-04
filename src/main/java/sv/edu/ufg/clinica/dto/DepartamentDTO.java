@@ -17,6 +17,5 @@ public class DepartamentDTO {
     private Integer idDepartament;
 
     @NotNull
-    @Size(min = 3, message = "{name.size}")
     private String name;
 }

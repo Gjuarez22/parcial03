@@ -25,11 +25,11 @@ public class DepartmentController {
     @Autowired
     private ModelMapper mapper;
 
-    @GetMapping
-    public ResponseEntity<List<DepartamentDTO>> findAll() {
-        List<DepartamentDTO> list = service.findAll().stream().map(p -> mapper.map(p, DepartamentDTO.class)).collect(Collectors.toList());
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
+        @GetMapping
+        public ResponseEntity<List<DepartamentDTO>> findAll() {
+            List<DepartamentDTO> list = service.findAll().stream().map(p -> mapper.map(p, DepartamentDTO.class)).collect(Collectors.toList());
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
 
     @GetMapping("/{id}")
     public ResponseEntity<DepartamentDTO> findById(@PathVariable("id") Integer id) {
@@ -59,4 +59,16 @@ public class DepartmentController {
         }
         return new ResponseEntity<>(service.update(mapper.map(dto, Departament.class)), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable("id") Integer id) {
+        Departament obj = service.findOneById(id);
+        if (obj == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            service.delete(obj);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }
