@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sv.edu.ufg.clinica.dto.DepartamentDTO;
 import sv.edu.ufg.clinica.dto.EmployeDTO;
+import sv.edu.ufg.clinica.dto.EmployeRDto;
+import sv.edu.ufg.clinica.dto.EmployeSalarioCode;
 import sv.edu.ufg.clinica.model.Departament;
 import sv.edu.ufg.clinica.model.Employe;
 import sv.edu.ufg.clinica.service.IDepartamentService;
@@ -62,4 +64,38 @@ public class EmployeController {
         }
         return new ResponseEntity<>(service.update(mapper.map(dto, Employe.class)), HttpStatus.OK);
     }
+
+    @PostMapping("/inactivar")
+    public ResponseEntity<EmployeDTO> inactivar(@Valid @RequestBody EmployeRDto r) {
+        EmployeDTO dtoResponse;
+        Employe em = service.findOneById(r.getIdEmploye());
+        em.setActive(false);
+        em.setReason_inactivity(r.getReason_inactivity());
+        Employe p = service.update(em);
+
+        dtoResponse = mapper.map(p, EmployeDTO.class);
+        return new ResponseEntity<>(dtoResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/salario")
+    public ResponseEntity<EmployeDTO> salario(@Valid @RequestBody EmployeSalarioCode r) {
+        EmployeDTO dtoResponse;
+        double iss = 0.03;
+        double afp = 0.0725;
+        double impuestoTotal = iss + afp;
+        double salario = Double.parseDouble(r.getSalary());
+        double salarioLiquido = salario - (impuestoTotal * salario);
+        String guardar = String.valueOf(salarioLiquido);
+
+        Employe em = service.findOneById(r.getIdEmploye());
+        em.setCodeEmploye(r.getCodeEmploye());
+        em.setSalary(guardar);
+        Employe p = service.update(em);
+
+        dtoResponse = mapper.map(p, EmployeDTO.class);
+
+        return new ResponseEntity<>(dtoResponse, HttpStatus.OK);
+    }
+
+
 }
