@@ -25,7 +25,7 @@ public class Employe {
     @Column(nullable = false, length = 50)
     private String gender;
     @Column(nullable = false, length = 50)
-    private String address;
+    private String addressComp;
     @Column(nullable = true, length = 50)
     private String phone;
     @Column(nullable = true, length = 10)
@@ -34,4 +34,8 @@ public class Employe {
     private boolean active;
     @Column(nullable = true, length = 100)
     private String reason_inactivity;
+
+    @OneToOne
+    @JoinColumn(nullable = true)
+    private Municipality municipality;
 }
