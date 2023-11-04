@@ -21,6 +21,6 @@ public class Municipality {
     private String name;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "idDepartament", nullable = false)
     private Departament departament;
 }
