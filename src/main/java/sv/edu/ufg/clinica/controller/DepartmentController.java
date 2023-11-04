@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sv.edu.ufg.clinica.dto.DepartamentDTO;
+import sv.edu.ufg.clinica.dto.MunicipalityDTO;
 import sv.edu.ufg.clinica.model.Departament;
 import sv.edu.ufg.clinica.service.IDepartamentService;
+import sv.edu.ufg.clinica.service.IMunicipalityService;
 
 import java.net.URI;
 import java.util.List;
@@ -23,6 +25,9 @@ public class DepartmentController {
     private IDepartamentService service;
 
     @Autowired
+    private IMunicipalityService serviceM;
+
+    @Autowired
     private ModelMapper mapper;
 
         @GetMapping
@@ -32,13 +37,14 @@ public class DepartmentController {
         }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DepartamentDTO> findById(@PathVariable("id") Integer id) {
-        DepartamentDTO dtoResponse;
+    public ResponseEntity<Departament> findById(@PathVariable("id") Integer id) {
+
+        Departament dtoResponse;
         Departament obj = service.findOneById(id);
         if (obj == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            dtoResponse = mapper.map(obj, DepartamentDTO.class);
+            dtoResponse = mapper.map(obj, Departament.class);
         }
         return new ResponseEntity<>(dtoResponse, HttpStatus.OK);
     }
