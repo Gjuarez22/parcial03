@@ -1,5 +1,6 @@
 package sv.edu.ufg.clinica.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,8 @@ public class Municipality {
     @Column(nullable = true, length = 50)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     @JoinColumn(name = "idDepartament", nullable = false)
     private Departament departament;
 }

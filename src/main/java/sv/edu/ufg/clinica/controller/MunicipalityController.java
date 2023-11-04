@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/Municipality")
+    @RequestMapping("/Municipality")
 public class MunicipalityController {
 
     @Autowired
